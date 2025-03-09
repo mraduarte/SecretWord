@@ -74,24 +74,37 @@ function App() {
     }
 
     //push guessed letter or remove a guess
-    if(letters.includes(normalizedLetter)){
+    if (letters.includes(normalizedLetter)) {
       setGuessedLetters((actualGuessedLetters) => [
         ...actualGuessedLetters,
         normalizedLetter,
       ]);
-    }else{
-      setGuessedLetters((actualWrongLetter) => [
+    } else {
+      setWrongLetters((actualWrongLetter) => [
         ...actualWrongLetter,
         normalizedLetter,
       ]);
-    }
 
-    console.log(guessedLetters);
-    console.log(wrongLetters);
+      setGuesses((actualGuesses) => actualGuesses - 1);
+    };
   }
+
+  const clearLetterStates = () => {
+    setGuessedLetters([]);
+    setWrongLetters([]);
+  }
+
+  useEffect(() => {
+    if(guesses <= 0){
+      clearLetterStates();
+      setGameStage(stages[2].name);
+    }
+  }, [guesses]);
 
   //retart game
   const retry = () => {
+    setScore(0);
+    setGuesses(3);
     setGameStage(stages[0].name)
   }
 
@@ -110,7 +123,7 @@ function App() {
           score={score}
         />
       )}
-      {gameStage === 'end' && <GameOver retry={retry} />}
+      {gameStage === 'end' && <GameOver retry={retry} score={score}/>}
     </div>
   );
 }

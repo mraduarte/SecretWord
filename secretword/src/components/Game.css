@@ -2,6 +2,10 @@
     font-size: 2.5em;
 }
 
+.points{
+    margin-top: 20px;
+}
+
 .points span{
     font-weight: bold;
 }
